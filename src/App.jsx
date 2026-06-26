@@ -2,6 +2,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
+import Toaster from './components/Toaster'
 import { ROLES, HOME_POR_ROL } from './constants/roles'
 import Login from './pages/Login'
 import TejedorHome from './pages/TejedorHome'
@@ -19,6 +20,7 @@ function RaizSegunRol() {
 export default function App() {
   return (
     <AuthProvider>
+      <Toaster />
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />

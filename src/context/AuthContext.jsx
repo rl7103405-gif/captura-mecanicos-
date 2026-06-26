@@ -8,6 +8,12 @@ import {
 } from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
 import { auth, db } from '../firebase/config'
+import { initMensajeria } from '../firebase/messaging'
+
+// Reenvia una notificacion recibida en primer plano al Toaster.
+function avisar(n) {
+  window.dispatchEvent(new CustomEvent('app-notif', { detail: n }))
+}
 
 const AuthContext = createContext(null)
 
@@ -23,6 +29,8 @@ export function AuthProvider({ children }) {
         try {
           const snap = await getDoc(doc(db, 'usuarios', usuario.uid))
           setPerfil(snap.exists() ? { id: snap.id, ...snap.data() } : null)
+          // Registra el dispositivo para notificaciones push (no bloqueante).
+          initMensajeria(usuario.uid, avisar)
         } catch (e) {
           console.error('[Auth] No se pudo cargar el perfil:', e)
           setPerfil(null)

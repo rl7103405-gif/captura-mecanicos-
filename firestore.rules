@@ -34,7 +34,10 @@ service cloud.firestore {
     // asignaciones, etc.). La gestion de altas se hace desde consola/admin.
     match /usuarios/{uid} {
       allow read: if request.auth.uid == uid || esSupervisor();
-      allow write: if false; // alta/baja por admin (script o Cloud Function)
+      // El usuario solo puede actualizar su propio token FCM (ningun otro campo).
+      allow update: if request.auth.uid == uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['fcmTokens']);
+      allow create, delete: if false; // alta/baja por admin (script o Cloud Function)
     }
 
     // ---- catalogo_fallas ----
