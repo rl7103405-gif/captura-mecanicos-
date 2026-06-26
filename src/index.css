@@ -621,3 +621,76 @@ code {
   align-items: center;
   justify-content: center;
 }
+
+/* ---- KPIs / barras ---- */
+.grid-paneles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.barras {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.barra-fila {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+}
+
+.barra-etq {
+  color: var(--texto-suave);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.barra-pista {
+  background: var(--fondo);
+  border-radius: 999px;
+  height: 14px;
+  overflow: hidden;
+}
+
+.barra-rel {
+  height: 100%;
+  border-radius: 999px;
+  min-width: 2px;
+  transition: width 0.3s ease;
+}
+
+.barra-val {
+  font-weight: 700;
+  min-width: 32px;
+  text-align: right;
+}
+
+/* ---- Tablas ---- */
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.tabla th,
+.tabla td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--borde);
+}
+
+.tabla th {
+  color: var(--texto-suave);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.tabla tbody tr:hover {
+  background: var(--fondo);
+}
