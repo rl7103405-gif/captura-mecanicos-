@@ -4,6 +4,7 @@
  * Crea:
  *   - El catalogo de fallas (coleccion catalogo_fallas).
  *   - Usuarios de ejemplo con su rol (Auth + coleccion usuarios).
+ *   - La flota de maquinas con su criticidad (coleccion maquinas).
  *
  * Requisitos:
  *   1) npm install firebase-admin
@@ -24,6 +25,12 @@ import { getFirestore } from 'firebase-admin/firestore'
 // --- Catalogo (mismo contenido que src/constants/catalogoFallas.js) ---
 const CATALOGO_FALLAS = JSON.parse(
   readFileSync(new URL('./catalogo_fallas.json', import.meta.url))
+)
+
+// --- Flota de maquinas (datos de prueba derivados del histor real) ---
+// Numeros, criticidad por reincidencia y 8 marcadas como no disponibles.
+const MAQUINAS = JSON.parse(
+  readFileSync(new URL('./maquinas.json', import.meta.url))
 )
 
 // --- Usuarios de ejemplo. Cambia correos/contrasenas antes de usar. ---
@@ -82,9 +89,25 @@ async function seedUsuarios() {
   console.log(`Usuarios: ${USUARIOS.length} perfiles escritos.`)
 }
 
+async function seedMaquinas() {
+  // Firestore limita los batch a 500 operaciones; troceamos por seguridad.
+  let i = 0
+  while (i < MAQUINAS.length) {
+    const lote = MAQUINAS.slice(i, i + 400)
+    const batch = db.batch()
+    for (const m of lote) {
+      batch.set(db.collection('maquinas').doc(String(m.numero)), m)
+    }
+    await batch.commit()
+    i += 400
+  }
+  console.log(`Maquinas: ${MAQUINAS.length} creadas.`)
+}
+
 async function main() {
   await seedCatalogo()
   await seedUsuarios()
+  await seedMaquinas()
   console.log('\nSeed completado.')
   process.exit(0)
 }
