@@ -694,3 +694,42 @@ code {
 .tabla tbody tr:hover {
   background: var(--fondo);
 }
+
+/* ---- Podio del ranking ---- */
+.podio {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.podio-item {
+  flex: 1;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 14px;
+  box-shadow: var(--sombra);
+  padding: 16px;
+  text-align: center;
+}
+
+.podio-item.p1 { border-top: 4px solid #eab308; }
+.podio-item.p2 { border-top: 4px solid #94a3b8; }
+.podio-item.p3 { border-top: 4px solid #b45309; }
+
+.podio-medalla { font-size: 1.6rem; }
+.podio-nombre { font-weight: 800; margin-top: 4px; }
+.podio-indice { font-size: 1.8rem; font-weight: 900; color: var(--azul); }
+.podio-lbl {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  letter-spacing: 0.03em;
+}
+
+.indice-pill {
+  background: var(--azul);
+  color: #fff;
+  font-weight: 800;
+  padding: 2px 10px;
+  border-radius: 999px;
+}
