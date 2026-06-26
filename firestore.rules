@@ -1,0 +1,72 @@
+rules_version = '2';
+
+// Reglas de seguridad acordes a los 3 roles: tejedor, supervisor, mecanico.
+// El perfil (rol/nivel/turno) vive en usuarios/{uid}.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---- Helpers ----
+    function estaAutenticado() {
+      return request.auth != null;
+    }
+
+    function perfil() {
+      return get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data;
+    }
+
+    function tieneRol(rol) {
+      return estaAutenticado()
+        && exists(/databases/$(database)/documents/usuarios/$(request.auth.uid))
+        && perfil().rol == rol;
+    }
+
+    function esTejedor()   { return tieneRol('tejedor'); }
+    function esMecanico()  { return tieneRol('mecanico'); }
+    function esSupervisor(){ return tieneRol('supervisor'); }
+
+    // Gerencia es un supervisor con nivel 'gerencia' (permisos granulares a futuro).
+    function esGerencia() {
+      return esSupervisor() && perfil().nivel == 'gerencia';
+    }
+
+    // ---- usuarios ----
+    // Cada quien lee su propio perfil. Supervisores leen todos (para ranking,
+    // asignaciones, etc.). La gestion de altas se hace desde consola/admin.
+    match /usuarios/{uid} {
+      allow read: if request.auth.uid == uid || esSupervisor();
+      allow write: if false; // alta/baja por admin (script o Cloud Function)
+    }
+
+    // ---- catalogo_fallas ----
+    // Lectura para cualquier usuario autenticado. Edicion de tiempos estandar
+    // reservada a gerencia (se podra afinar despues).
+    match /catalogo_fallas/{id} {
+      allow read: if estaAutenticado();
+      allow write: if esGerencia();
+    }
+
+    // ---- maquinas ----
+    // Todos los roles ven el tablero. El estado lo cambian el flujo de
+    // incidencias (mecanico/supervisor); la disponibilidad la ajusta supervisor.
+    match /maquinas/{id} {
+      allow read: if estaAutenticado();
+      allow write: if esMecanico() || esSupervisor();
+    }
+
+    // ---- incidencias ----
+    // Tejedor crea (reporta). Supervisor prioriza. Mecanico atiende y cierra.
+    match /incidencias/{id} {
+      allow read: if estaAutenticado();
+      allow create: if esTejedor() || esSupervisor();
+      allow update: if esMecanico() || esSupervisor();
+      allow delete: if esSupervisor();
+    }
+
+    // ---- paros (Reporte de Paros MQ) ----
+    match /paros/{id} {
+      allow read: if estaAutenticado();
+      allow create: if estaAutenticado();
+      allow update, delete: if esSupervisor();
+    }
+  }
+}

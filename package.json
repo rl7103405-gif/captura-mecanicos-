@@ -1,0 +1,24 @@
+{
+  "name": "gestion-mantenimiento",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Sistema de gestion de mantenimiento en tiempo real para planta de tejido de calcetines",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "firebase": "^10.12.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.24.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.3.1",
+    "vite-plugin-pwa": "^0.20.0"
+  }
+}
