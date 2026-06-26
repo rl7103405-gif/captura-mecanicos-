@@ -6,19 +6,23 @@
  *   - Usuarios de ejemplo con su rol (Auth + coleccion usuarios).
  *   - La flota de maquinas con su criticidad (coleccion maquinas).
  *
- * Requisitos:
- *   1) npm install firebase-admin
- *   2) Descarga la clave privada de servicio desde:
+ * Dos formas de autenticarse:
+ *   A) Google Cloud Shell / entorno Google (recomendado, sin archivo de clave):
+ *      usa las credenciales de tu sesion (ADC). Solo:
+ *        npm install firebase-admin
+ *        node scripts/seed.mjs
+ *      (toma el proyecto de GOOGLE_CLOUD_PROJECT o de .firebaserc)
+ *   B) En tu PC con clave de servicio:
  *      Firebase Console -> Configuracion del proyecto -> Cuentas de servicio
  *      -> Generar nueva clave privada. Guardala como serviceAccountKey.json
- *      en la raiz (ya esta en .gitignore, NO la subas al repo).
- *   3) node scripts/seed.mjs
+ *      en la raiz (ya esta en .gitignore, NO la subas al repo). Luego:
+ *        node scripts/seed.mjs
  *
  * Los mecanicos activos son 5 y distintos: Alejandro, Alex, Marcos, Martin, Oscar.
  * (Alex y Alejandro son personas diferentes; no se unifican.)
  */
-import { readFileSync } from 'node:fs'
-import { initializeApp, cert } from 'firebase-admin/app'
+import { readFileSync, existsSync } from 'node:fs'
+import { initializeApp, cert, applicationDefault } from 'firebase-admin/app'
 import { getAuth } from 'firebase-admin/auth'
 import { getFirestore } from 'firebase-admin/firestore'
 
@@ -46,11 +50,17 @@ const USUARIOS = [
   { nombre: 'Oscar', email: 'oscar@demo.com', password: 'Demo1234', rol: 'mecanico', nivel: null, turno: 1 }
 ]
 
-const serviceAccount = JSON.parse(
-  readFileSync(new URL('../serviceAccountKey.json', import.meta.url))
-)
-
-initializeApp({ credential: cert(serviceAccount) })
+// Autenticacion: usa la clave de servicio si existe; si no, credenciales del
+// entorno (ADC), p.ej. en Google Cloud Shell.
+const keyUrl = new URL('../serviceAccountKey.json', import.meta.url)
+if (existsSync(keyUrl)) {
+  initializeApp({ credential: cert(JSON.parse(readFileSync(keyUrl))) })
+} else {
+  const projectId =
+    process.env.GOOGLE_CLOUD_PROJECT || process.env.GCLOUD_PROJECT || 'quini-mecanicos'
+  initializeApp({ credential: applicationDefault(), projectId })
+  console.log(`Usando credenciales del entorno (ADC). Proyecto: ${projectId}`)
+}
 const auth = getAuth()
 const db = getFirestore()
 

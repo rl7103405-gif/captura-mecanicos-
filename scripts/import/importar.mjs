@@ -16,18 +16,23 @@
  *   - coleccion paros
  *   - acumulados por maquina: fallasHistoricas, minutosDetenidaHistorico
  */
-import { readFileSync } from 'node:fs'
-import { initializeApp, cert } from 'firebase-admin/app'
+import { readFileSync, existsSync } from 'node:fs'
+import { initializeApp, cert, applicationDefault } from 'firebase-admin/app'
 import { getFirestore, Timestamp } from 'firebase-admin/firestore'
 
 const AQUI = new URL('.', import.meta.url)
 const OUT = new URL('./out/', AQUI)
 const aplicarEstandar = process.argv.includes('--estandar')
 
-const serviceAccount = JSON.parse(
-  readFileSync(new URL('../../serviceAccountKey.json', AQUI))
-)
-initializeApp({ credential: cert(serviceAccount) })
+// Autenticacion: clave de servicio si existe; si no, ADC (p.ej. Cloud Shell).
+const keyUrl = new URL('../../serviceAccountKey.json', AQUI)
+if (existsSync(keyUrl)) {
+  initializeApp({ credential: cert(JSON.parse(readFileSync(keyUrl))) })
+} else {
+  const projectId =
+    process.env.GOOGLE_CLOUD_PROJECT || process.env.GCLOUD_PROJECT || 'quini-mecanicos'
+  initializeApp({ credential: applicationDefault(), projectId })
+}
 const db = getFirestore()
 
 const leer = (nombre) => JSON.parse(readFileSync(new URL(nombre, OUT)))
