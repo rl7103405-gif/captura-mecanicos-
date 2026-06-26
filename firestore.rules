@@ -46,11 +46,18 @@ service cloud.firestore {
     }
 
     // ---- maquinas ----
-    // Todos los roles ven el tablero. El estado lo cambian el flujo de
-    // incidencias (mecanico/supervisor); la disponibilidad la ajusta supervisor.
+    // Todos los roles ven el tablero. El estado lo cambia el flujo de
+    // incidencias: el tejedor la pone en rojo al reportar, el mecanico en
+    // amarillo/verde al atender/cerrar. Alta/baja de maquinas: supervisor.
     match /maquinas/{id} {
       allow read: if estaAutenticado();
-      allow write: if esMecanico() || esSupervisor();
+      allow update: if estaAutenticado();
+      allow create, delete: if esSupervisor();
+    }
+
+    // ---- contadores (folios automaticos) ----
+    match /contadores/{id} {
+      allow read, write: if estaAutenticado();
     }
 
     // ---- incidencias ----

@@ -459,3 +459,165 @@ code {
   font-weight: 700;
   color: var(--azul);
 }
+
+/* ---- Formularios grandes (tablet) ---- */
+.textarea-grande,
+.select-grande {
+  width: 100%;
+  padding: 14px;
+  font-size: 1rem;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--texto);
+  font-family: inherit;
+  resize: vertical;
+}
+
+.textarea-grande:focus,
+.select-grande:focus {
+  outline: none;
+  border-color: var(--azul);
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+}
+
+.selector .celda-maquina {
+  font-size: 0.9rem;
+}
+
+.celda-activa {
+  outline: 3px solid var(--azul);
+  outline-offset: 2px;
+}
+
+.botones-turno {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-turno {
+  flex: 1;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: 1px solid var(--borde);
+  background: #fff;
+  color: var(--texto);
+  border-radius: 10px;
+  cursor: pointer;
+  min-height: 52px;
+}
+
+.btn-turno.activo {
+  background: var(--azul);
+  color: #fff;
+  border-color: var(--azul);
+}
+
+/* ---- Tarjeta de incidencia ---- */
+.seccion-titulo {
+  font-size: 1.05rem;
+  margin: 0 0 12px;
+}
+
+.tarjeta-incidencia {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-left: 5px solid var(--borde);
+  border-radius: 12px;
+  box-shadow: var(--sombra);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.tarjeta-incidencia.atendiendo {
+  border-left-color: #d97706;
+}
+
+.ti-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.ti-orden {
+  font-weight: 800;
+  color: var(--texto-suave);
+}
+
+.ti-maquina {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.ti-desc {
+  margin: 4px 0 10px;
+  font-style: italic;
+}
+
+.ti-meta {
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+  margin-bottom: 12px;
+}
+
+/* ---- Badges ---- */
+.badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  color: #fff;
+}
+
+.badge-gris { background: #94a3b8; }
+.badge-amarillo { background: #d97706; }
+.badge-azul { background: #2563eb; }
+.badge-critica { background: #b91c1c; }
+.urg-alta { background: #dc2626; }
+.urg-media { background: #d97706; }
+.urg-baja { background: #16a34a; }
+
+/* ---- Botones de urgencia (supervisor) ---- */
+.botones-urgencia {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-urg {
+  flex: 1;
+  padding: 14px;
+  font-weight: 800;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  min-height: 52px;
+  font-size: 1rem;
+}
+
+.btn-urg.urg-alta { background: #dc2626; }
+.btn-urg.urg-media { background: #d97706; }
+.btn-urg.urg-baja { background: #16a34a; }
+
+/* ---- Exito ---- */
+.exito-card {
+  text-align: center;
+}
+
+.exito-check {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  background: #16a34a;
+  color: #fff;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
