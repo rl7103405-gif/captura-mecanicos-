@@ -33,3 +33,7 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Salidas grandes del pipeline de importacion (se regeneran con limpiar.py)
+scripts/import/out/incidencias_historico.json
+scripts/import/out/paros.json

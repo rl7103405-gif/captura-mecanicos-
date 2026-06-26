@@ -1,0 +1,170 @@
+[
+  {
+    "codigo": "01",
+    "falla": "Rotura de agujas",
+    "minEstandarActual": 28,
+    "minPromedioReal": 43,
+    "n": 210
+  },
+  {
+    "codigo": "02",
+    "falla": "Falla en punzones",
+    "minEstandarActual": 32,
+    "minPromedioReal": 42,
+    "n": 139
+  },
+  {
+    "codigo": "03",
+    "falla": "Cuchilla sin filo / no corta",
+    "minEstandarActual": 25,
+    "minPromedioReal": 36,
+    "n": 123
+  },
+  {
+    "codigo": "04",
+    "falla": "Cambio de tejido (liso/felpa)",
+    "minEstandarActual": 35,
+    "minPromedioReal": 41,
+    "n": 81
+  },
+  {
+    "codigo": "05",
+    "falla": "Falla de valvula / electrovalvula",
+    "minEstandarActual": 22,
+    "minPromedioReal": 27,
+    "n": 32
+  },
+  {
+    "codigo": "06",
+    "falla": "Falla de elastico / licra",
+    "minEstandarActual": 25,
+    "minPromedioReal": 35,
+    "n": 63
+  },
+  {
+    "codigo": "07",
+    "falla": "Vanizado incorrecto",
+    "minEstandarActual": 25,
+    "minPromedioReal": 31,
+    "n": 34
+  },
+  {
+    "codigo": "08",
+    "falla": "Falla en bordado",
+    "minEstandarActual": 40,
+    "minPromedioReal": 30,
+    "n": 29
+  },
+  {
+    "codigo": "09",
+    "falla": "Error electronico (30/11)",
+    "minEstandarActual": 20,
+    "minPromedioReal": 37,
+    "n": 31
+  },
+  {
+    "codigo": "10",
+    "falla": "Pica / calidad de tejido",
+    "minEstandarActual": 18,
+    "minPromedioReal": 33,
+    "n": 67
+  },
+  {
+    "codigo": "11",
+    "falla": "Falla en alimentador",
+    "minEstandarActual": 30,
+    "minPromedioReal": 23,
+    "n": 25
+  },
+  {
+    "codigo": "12",
+    "falla": "Cambio de cilindro",
+    "minEstandarActual": 180,
+    "minPromedioReal": 156,
+    "n": 10
+  },
+  {
+    "codigo": "13",
+    "falla": "Hebras largas",
+    "minEstandarActual": 20,
+    "minPromedioReal": 34,
+    "n": 10
+  },
+  {
+    "codigo": "14",
+    "falla": "Falla en selectores / slyder",
+    "minEstandarActual": 40,
+    "minPromedioReal": 69,
+    "n": 28
+  },
+  {
+    "codigo": "15",
+    "falla": "Rotura de banda",
+    "minEstandarActual": 35,
+    "minPromedioReal": 39,
+    "n": 9
+  },
+  {
+    "codigo": "16",
+    "falla": "Ajuste de talla / cadena",
+    "minEstandarActual": 40,
+    "minPromedioReal": 43,
+    "n": 36
+  },
+  {
+    "codigo": "17",
+    "falla": "Rotura de platinas",
+    "minEstandarActual": 30,
+    "minPromedioReal": 43,
+    "n": 9
+  },
+  {
+    "codigo": "18",
+    "falla": "Falla electrica / fuente",
+    "minEstandarActual": 35,
+    "minPromedioReal": 26,
+    "n": 5
+  },
+  {
+    "codigo": "19",
+    "falla": "Fuga de aire",
+    "minEstandarActual": 25,
+    "minPromedioReal": 27,
+    "n": 9
+  },
+  {
+    "codigo": "20",
+    "falla": "No da talla",
+    "minEstandarActual": 20,
+    "minPromedioReal": 22,
+    "n": 13
+  },
+  {
+    "codigo": "21",
+    "falla": "Falla en transferencia",
+    "minEstandarActual": 30,
+    "minPromedioReal": 31,
+    "n": 10
+  },
+  {
+    "codigo": "22",
+    "falla": "Contaminacion",
+    "minEstandarActual": 20,
+    "minPromedioReal": 25,
+    "n": 4
+  },
+  {
+    "codigo": "23",
+    "falla": "Falla en actuador",
+    "minEstandarActual": 25,
+    "minPromedioReal": 48,
+    "n": 13
+  },
+  {
+    "codigo": "24",
+    "falla": "Otro (describir)",
+    "minEstandarActual": 30,
+    "minPromedioReal": 35,
+    "n": 64
+  }
+]

@@ -3,7 +3,7 @@
 // tiempo muerto total. De maquinas: ranking de problematicas, horas perdidas.
 import { useMemo } from 'react'
 import { orderBy } from 'firebase/firestore'
-import { incidenciasRef, maquinasRef } from '../firebase/colecciones'
+import { incidenciasRef, maquinasRef, parosRef } from '../firebase/colecciones'
 import { useColeccion } from '../hooks/useColeccion'
 import BarraKpi from './BarraKpi'
 import {
@@ -11,15 +11,18 @@ import {
   contarPor,
   aRankingDesc,
   claveDia,
-  cumplimientoPorFalla
+  cumplimientoPorFalla,
+  suma
 } from '../utils/kpis'
 import { formatoMinutos } from '../utils/tiempo'
 
 export default function PanelIndicadores() {
   const { datos: incidencias, cargando } = useColeccion(incidenciasRef)
   const { datos: maquinas } = useColeccion(maquinasRef, [orderBy('numero')])
+  const { datos: paros } = useColeccion(parosRef)
 
   const r = useMemo(() => resumenMantenimiento(incidencias), [incidencias])
+  const parosMin = useMemo(() => suma(paros.map((p) => p.duracionMin)), [paros])
 
   const porTurno = useMemo(
     () => aRankingDesc(contarPor(incidencias, (i) => (i.turno ? `Turno ${i.turno}` : null))),
@@ -65,9 +68,12 @@ export default function PanelIndicadores() {
         <Kpi num={formatoMinutos(r.tiempoMuertoTotal)} lbl="Tiempo muerto total" />
         <Kpi
           num={(r.tiempoMuertoTotal / 60).toFixed(1) + ' h'}
-          lbl="Horas perdidas"
+          lbl="Horas perdidas (incid.)"
         />
-        <Kpi num={maquinas.length} lbl="Maquinas" />
+        <Kpi
+          num={paros.length ? (parosMin / 60).toFixed(1) + ' h' : '—'}
+          lbl={`Paros MQ (${paros.length})`}
+        />
       </div>
 
       <div className="grid-paneles">

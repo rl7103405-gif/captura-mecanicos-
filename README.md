@@ -6,10 +6,11 @@ ranking de mecanicos.
 
 **Stack:** React + Vite (PWA) · Firebase (Firestore, Authentication, Hosting, FCM).
 
-> Estado actual: **Etapa 1** — estructura del proyecto, configuracion de Firebase
-> y login con roles. Las siguientes etapas (tablero, flujo de incidencias, KPIs,
-> ranking, notificaciones, importacion del historico, despliegue) se construyen
-> una por una.
+> Estado: **Etapas 1–7 construidas** — estructura + login con roles (1), tablero
+> de maquinas en tiempo real (2), flujo completo de incidencias con timestamps
+> automaticos (3), KPIs (4), ranking justo de mecanicos (5), notificaciones FCM
+> (6) y pipeline de limpieza e importacion del historico (7). Falta la Etapa 8
+> (despliegue), que ejecutas tu con tu proyecto Firebase (ver mas abajo).
 
 ## Roles
 
@@ -69,11 +70,35 @@ firebase login
 firebase deploy --only firestore:rules
 ```
 
-### 7. Desplegar (Etapa 8)
+### 7. Importar el historico real (Etapa 7)
+El pipeline limpia el Excel y deja todo listo para Firestore:
+```bash
+# 1) Limpieza (Python). Estandariza fallas, corrige nombres, sanea horas.
+pip install openpyxl
+python3 scripts/import/limpiar.py /ruta/a/REPORTE_DE_MECANICOS.xlsx
+#    -> scripts/import/out/  (incidencias, paros, tiempos refinados, reporte)
+
+# 2) Importacion a Firestore (Node, requiere serviceAccountKey.json)
+node scripts/import/importar.mjs            # incidencias + paros + acumulados
+node scripts/import/importar.mjs --estandar # ademas aplica tiempos refinados
+```
+El reporte `scripts/import/out/reporte_limpieza.md` resume descartes,
+clasificacion y la comparativa estandar vs promedio real.
+
+### 8. Desplegar (Etapa 8)
 ```bash
 npm run build
+firebase deploy            # hosting + reglas + functions
+# o por partes:
 firebase deploy --only hosting
+firebase deploy --only firestore:rules
+firebase deploy --only functions   # requiere plan Blaze
 ```
+
+> **FCM / notificaciones:** en la consola de Firebase, en *Cloud Messaging*,
+> genera el **certificado push web (VAPID)** y ponlo en `VITE_FIREBASE_VAPID_KEY`
+> dentro de `.env`. Las Cloud Functions (carpeta `functions/`) envian los push y
+> requieren el plan **Blaze** (el uso real cabe en la capa gratuita).
 
 ---
 
